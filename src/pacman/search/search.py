@@ -17,7 +17,9 @@ In search.py, you will implement generic search algorithms which are called by
 Pacman agents (in searchAgents.py).
 """
 
+from traceback import print_tb
 import util
+import time
 
 class SearchProblem:
     """
@@ -86,8 +88,34 @@ def depthFirstSearch(problem: SearchProblem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    time.sleep(1) # Usado apenas para facilitar a visualização, pode apagar se quiser
+
+    # DFS(G, u): 
+    #    let St be stack
+    #    Push u in the stack
+    #    mark u as visited.
+    #    while ( St is not empty)
+    #        v  =  Node at the top of stack
+    #        remove the node from stack
+    #        for all neighbors adj_node of v in Graph G:
+    #            if adj_node is not visited :
+    #                    mark adj_node as visited
+    #                    push adj_node in stack
+
+    path = util.Stack
+    path.push(problem.getStartState(), "visited")
+
+    curr_path = problem.getStartState()
+    while not path.isEmpty:
+
+        current = path.pop()
+        for sucessor, action, stepCost  in problem.getSuccessors(current):
+            if not sucessor in path:
+                path.push(sucessor)
+
+    print(path)
+    return path
+    #util.raiseNotDefined()
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
