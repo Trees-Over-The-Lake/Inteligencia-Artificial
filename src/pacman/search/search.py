@@ -17,9 +17,8 @@ In search.py, you will implement generic search algorithms which are called by
 Pacman agents (in searchAgents.py).
 """
 
-from traceback import print_tb
-import util
 import time
+import util
 
 class SearchProblem:
     """
@@ -33,7 +32,8 @@ class SearchProblem:
         """
         Returns the start state for the search problem.
         """
-        util.raiseNotDefined()
+        #util.raiseNotDefined()
+        pass
 
     def isGoalState(self, state):
         """
@@ -41,7 +41,8 @@ class SearchProblem:
 
         Returns True if and only if the state is a valid goal state.
         """
-        util.raiseNotDefined()
+        #util.raiseNotDefined()
+        pass
 
     def getSuccessors(self, state):
         """
@@ -52,7 +53,8 @@ class SearchProblem:
         state, 'action' is the action required to get there, and 'stepCost' is
         the incremental cost of expanding to that successor.
         """
-        util.raiseNotDefined()
+        #util.raiseNotDefined()
+        pass
 
     def getCostOfActions(self, actions):
         """
@@ -61,7 +63,8 @@ class SearchProblem:
         This method returns the total cost of a particular sequence of actions.
         The sequence must be composed of legal moves.
         """
-        util.raiseNotDefined()
+        #util.raiseNotDefined()
+        pass
 
 
 def tinyMazeSearch(problem):
@@ -88,34 +91,26 @@ def depthFirstSearch(problem: SearchProblem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-    time.sleep(1) # Usado apenas para facilitar a visualização, pode apagar se quiser
-
-    # DFS(G, u): 
-    #    let St be stack
-    #    Push u in the stack
-    #    mark u as visited.
-    #    while ( St is not empty)
-    #        v  =  Node at the top of stack
-    #        remove the node from stack
-    #        for all neighbors adj_node of v in Graph G:
-    #            if adj_node is not visited :
-    #                    mark adj_node as visited
-    #                    push adj_node in stack
-
-    path = util.Stack
-    path.push(problem.getStartState(), "visited")
-
-    curr_path = problem.getStartState()
-    while not path.isEmpty:
-
-        current = path.pop()
-        for sucessor, action, stepCost  in problem.getSuccessors(current):
-            if not sucessor in path:
-                path.push(sucessor)
-
-    print(path)
-    return path
-    #util.raiseNotDefined()
+    time.sleep(1)
+    pacman_path = util.Queue()
+    all_visited_nodes = util.Queue()
+    current_paths_to_discover = util.Stack()
+    
+    all_visited_nodes.push(problem.getStartState())
+    current_state = problem.getStartState()
+    while not problem.isGoalState(current_state) or current_paths_to_discover.isEmpty():
+        for adjacent_paths in problem.getSuccessors(current_state):
+            if adjacent_paths[0] not in all_visited_nodes.list:
+                current_paths_to_discover.push(adjacent_paths)
+                all_visited_nodes.push(adjacent_paths[0])
+        
+        tmp = current_paths_to_discover.pop()
+        pacman_path.push(tmp[1])
+        current_state = tmp[0] 
+    
+    print(all_visited_nodes.list)
+    print(pacman_path.list.reverse())
+    return pacman_path.list
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
