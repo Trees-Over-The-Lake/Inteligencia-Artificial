@@ -91,14 +91,60 @@ def depthFirstSearch(problem: SearchProblem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-    time.sleep(1)
+    pacman_path = [[]]
+    actual_moviment = []
+    visited_nodes = util.Queue()
+    last_position = problem.getStartState()
+    actual_moviment.append(last_position)
+
+    while not problem.isGoalState(last_position):
+        verifying_posible_moviments = actual_moviment.pop(-1)
+        last_path = pacman_path.pop(-1)
+
+        for mov in problem.getSuccessors(verifying_posible_moviments):
+            new_direction = last_path.copy()
+            new_direction.append(mov[1])
+
+            if mov[0] not in visited_nodes.list:
+                visited_nodes.push(mov[0])
+                actual_moviment.append(mov[0])
+                
+                pacman_path.append(new_direction)
+                
+        last_position = actual_moviment[-1]
+
+    return pacman_path[-1]
 
         
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    
+    pacman_path = [[]]
+    actual_moviment = util.Queue()
+    visited_nodes = util.Queue()
+    last_position = problem.getStartState()
+    actual_moviment.push(last_position)
+
+    while not problem.isGoalState(last_position):
+        verifying_posible_moviments = actual_moviment.pop()
+        last_path = pacman_path.pop(0)
+
+        for mov in problem.getSuccessors(verifying_posible_moviments):
+            new_direction = last_path.copy()
+            new_direction.append(mov[1])
+
+            if mov[0] not in visited_nodes.list:
+                visited_nodes.push(mov[0])
+                actual_moviment.push(mov[0])
+                
+                pacman_path.append(new_direction)
+                
+        last_position = actual_moviment.list[0]
+
+    return pacman_path[-1]
+
 
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
