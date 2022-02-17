@@ -92,25 +92,30 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     time.sleep(1)
-    pacman_path = util.Queue()
+    
     all_visited_nodes = util.Queue()
-    current_paths_to_discover = util.Stack()
+    pacman_path = [] # util.Queue() is buggy
     
-    all_visited_nodes.push(problem.getStartState())
-    current_state = problem.getStartState()
-    while not problem.isGoalState(current_state) or current_paths_to_discover.isEmpty():
-        for adjacent_paths in problem.getSuccessors(current_state):
-            if adjacent_paths[0] not in all_visited_nodes.list:
-                current_paths_to_discover.push(adjacent_paths)
-                all_visited_nodes.push(adjacent_paths[0])
+    def _depthFirstSearch(problem: SearchProblem, current_path, chosenDirection):
+        if problem.isGoalState(current_path):
+            return chosenDirection
         
-        tmp = current_paths_to_discover.pop()
-        pacman_path.push(tmp[1])
-        current_state = tmp[0] 
+        sucessors = problem.getSuccessors(current_path)
+        dir = ''        
+        for adjacent_path in sucessors:
+            if adjacent_path[0] not in all_visited_nodes.list:
+                all_visited_nodes.push(adjacent_path[0])
+                
+                dir = _depthFirstSearch(problem, adjacent_path[0], adjacent_path[1])
+        
+        pacman_path.append(dir)
     
-    print(all_visited_nodes.list)
-    print(pacman_path.list.reverse())
-    return pacman_path.list
+    _depthFirstSearch(problem, problem.getStartState(), '')
+    
+    pacman_path = pacman_path[1:-1]
+    print(pacman_path)
+    return pacman_path
+        
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
