@@ -92,29 +92,7 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     time.sleep(1)
-    
-    all_visited_nodes = util.Queue()
-    pacman_path = [] # util.Queue() is buggy
-    
-    def _depthFirstSearch(problem: SearchProblem, current_path, chosenDirection):
-        if problem.isGoalState(current_path):
-            return chosenDirection
-        
-        sucessors = problem.getSuccessors(current_path)
-        dir = ''        
-        for adjacent_path in sucessors:
-            if adjacent_path[0] not in all_visited_nodes.list:
-                all_visited_nodes.push(adjacent_path[0])
-                
-                dir = _depthFirstSearch(problem, adjacent_path[0], adjacent_path[1])
-        
-        pacman_path.append(dir)
-    
-    _depthFirstSearch(problem, problem.getStartState(), '')
-    
-    pacman_path = pacman_path[1:-1]
-    print(pacman_path)
-    return pacman_path
+
         
 
 def breadthFirstSearch(problem: SearchProblem):
