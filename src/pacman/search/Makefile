@@ -37,3 +37,9 @@ sempreDireita:
 
 sempreEsquerda:
 	python3 pacman.py -l mediumDottedMaze -p StayWestSearchAgent
+
+assustadorDireita:
+	python3 pacman.py -l mediumScaryMaze -p StayEastSearchAgent
+
+assustadorEsquerda:
+	python3 pacman.py -l mediumScaryMaze -p StayWestSearchAgent
