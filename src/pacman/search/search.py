@@ -92,13 +92,13 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     pacman_path = [[]]
-    actual_moviment = []
+    actual_moviment = util.Stack()
     visited_nodes = util.Queue()
     last_position = problem.getStartState()
-    actual_moviment.append(last_position)
+    actual_moviment.push(last_position)
 
     while not problem.isGoalState(last_position):
-        verifying_posible_moviments = actual_moviment.pop(-1)
+        verifying_posible_moviments = actual_moviment.pop()
         last_path = pacman_path.pop(-1)
 
         for mov in problem.getSuccessors(verifying_posible_moviments):
@@ -107,11 +107,11 @@ def depthFirstSearch(problem: SearchProblem):
 
             if mov[0] not in visited_nodes.list:
                 visited_nodes.push(mov[0])
-                actual_moviment.append(mov[0])
+                actual_moviment.push(mov[0])
                 
                 pacman_path.append(new_direction)
                 
-        last_position = actual_moviment[-1]
+        last_position = actual_moviment.list[-1]
 
     return pacman_path[-1]
 
@@ -120,7 +120,6 @@ def depthFirstSearch(problem: SearchProblem):
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    
     pacman_path = [[]]
     actual_moviment = util.Queue()
     visited_nodes = util.Queue()
