@@ -102,13 +102,13 @@ def depthFirstSearch(problem: SearchProblem):
         verifying_possible_moviments = actual_movement.pop()
         last_path = pacman_path.pop(-1)
 
-        for mov in problem.getSuccessors(verifying_possible_moviments):
+        for neighbor in problem.getSuccessors(verifying_possible_moviments):
             new_direction = last_path.copy()
-            new_direction.append(getDirection(mov))
+            new_direction.append(getDirection(neighbor))
 
-            if getPosition(mov) not in visited_nodes.list:
-                visited_nodes.push(getPosition(mov))
-                actual_movement.push(getPosition(mov))
+            if getPosition(neighbor) not in visited_nodes.list:
+                visited_nodes.push(getPosition(neighbor))
+                actual_movement.push(getPosition(neighbor))
                 
                 pacman_path.append(new_direction)
                 
@@ -133,13 +133,13 @@ def breadthFirstSearch(problem: SearchProblem):
         verifying_possible_moviments = actual_movement.pop()
         last_path = pacman_path.pop(0)
 
-        for mov in problem.getSuccessors(verifying_possible_moviments):
+        for neighbor in problem.getSuccessors(verifying_possible_moviments):
             new_direction = last_path.copy()
-            new_direction.append(getDirection(mov))
+            new_direction.append(getDirection(neighbor))
 
-            if getPosition(mov) not in visited_nodes.list:
-                visited_nodes.push(getPosition(mov))
-                actual_movement.push(getPosition(mov))
+            if getPosition(neighbor) not in visited_nodes.list:
+                visited_nodes.push(getPosition(neighbor))
+                actual_movement.push(getPosition(neighbor))
                 
                 pacman_path.append(new_direction)
                 
@@ -153,7 +153,8 @@ def breadthFirstSearch(problem: SearchProblem):
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    print(problem.getSuccessors(problem.getStartState()))
+    return []
 
 def nullHeuristic(state, problem=None):
     """
