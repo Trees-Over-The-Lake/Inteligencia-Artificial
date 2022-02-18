@@ -31,3 +31,9 @@ ucsMedio:
 	
 ucsGrande:
 	python3 pacman.py -l bigMaze -p SearchAgent -a fn=ucs	
+
+sempreDireita:
+	python3 pacman.py -l mediumDottedMaze -p StayEastSearchAgent
+
+sempreEsquerda:
+	python3 pacman.py -l mediumDottedMaze -p StayWestSearchAgent
