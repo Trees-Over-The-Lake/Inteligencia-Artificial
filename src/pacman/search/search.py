@@ -153,8 +153,47 @@ def breadthFirstSearch(problem: SearchProblem):
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    print(problem.getSuccessors(problem.getStartState()))
-    return []
+    pacman_path = [[]]
+    actual_movement = {}                            # Collection of directions to move the pacman and its cost
+    visited_nodes = util.Queue()                    # Next steps
+    last_position = problem.getStartState()         # All visited nodes
+    movement_cost = 0                               # All paths and its cost
+    actual_movement[last_position] = movement_cost  # Last position before looping in while
+
+    while not problem.isGoalState(last_position):
+        
+        # To get the cheapest path is necessary to find the smallest number
+        # in the actual_movement dict, finding it we need to remove the
+        # element in the same position in the pacman_path list of lists
+        cheapest_path = min(actual_movement, key=actual_movement.get)
+        verifying_possible_moviments = cheapest_path
+        pos_in_dict = list(actual_movement).index(cheapest_path)
+        del actual_movement[cheapest_path]
+
+        # Save the last_path and pop this element from the list
+        # it saves some memory and remove paths that don't go
+        # to the goal
+        last_path = pacman_path[pos_in_dict]
+        del pacman_path[pos_in_dict]
+
+        for neighbor in problem.getSuccessors(verifying_possible_moviments):
+            new_direction = last_path.copy()
+            new_direction.append(getDirection(neighbor))
+            actual_path_cost = problem.getCostOfActions(new_direction)
+
+            if getPosition(neighbor) not in visited_nodes.list:
+                visited_nodes.push(getPosition(neighbor))
+                # Getting the cost from previous walked path, plus the actual one
+                actual_movement[getPosition(neighbor)] = actual_path_cost + getMovementCost(neighbor)
+                
+                pacman_path.append(new_direction)
+        
+        # The last calculated position is the cheapest
+        last_position = list(actual_movement.keys())[-1]
+
+    # Returning the last tried movement, to go out of the while
+    # the algorithm needs to find the goal
+    return pacman_path[-1]
 
 def nullHeuristic(state, problem=None):
     """
@@ -186,3 +225,6 @@ def getMovementCost(t: tuple):
 
 def getLastPosition(q: util.Queue):
     return q.list[0]
+
+def getLastPosition(s: util.Stack):
+    return s.list[-1]
