@@ -18,6 +18,7 @@ Pacman agents (in searchAgents.py).
 """
 
 import time
+from xml.dom.minidom import Element
 import util
 
 class SearchProblem:
@@ -91,28 +92,30 @@ def depthFirstSearch(problem: SearchProblem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
-    pacman_path = [[]]
-    actual_moviment = util.Stack()
-    visited_nodes = util.Queue()
-    last_position = problem.getStartState()
-    actual_moviment.push(last_position)
+    pacman_path = [[]]                         # Collection of directions to move the pacman
+    actual_movement = util.Stack()             # Next steps 
+    visited_nodes = util.Queue()               # All visited nodes
+    last_position = problem.getStartState()    # Last position before looping in while
+    actual_movement.push(last_position)
 
     while not problem.isGoalState(last_position):
-        verifying_posible_moviments = actual_moviment.pop()
+        verifying_possible_moviments = actual_movement.pop()
         last_path = pacman_path.pop(-1)
 
-        for mov in problem.getSuccessors(verifying_posible_moviments):
+        for mov in problem.getSuccessors(verifying_possible_moviments):
             new_direction = last_path.copy()
-            new_direction.append(mov[1])
+            new_direction.append(getDirection(mov))
 
-            if mov[0] not in visited_nodes.list:
-                visited_nodes.push(mov[0])
-                actual_moviment.push(mov[0])
+            if getPosition(mov) not in visited_nodes.list:
+                visited_nodes.push(getPosition(mov))
+                actual_movement.push(getPosition(mov))
                 
                 pacman_path.append(new_direction)
                 
-        last_position = actual_moviment.list[-1]
+        last_position = getLastPosition(actual_movement)
 
+    # Returning the last tried movement, to go out of the while
+    # the algorithm needs to find the goal
     return pacman_path[-1]
 
         
@@ -121,27 +124,29 @@ def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
     pacman_path = [[]]
-    actual_moviment = util.Queue()
-    visited_nodes = util.Queue()
-    last_position = problem.getStartState()
-    actual_moviment.push(last_position)
+    actual_movement = util.Queue()           # Collection of directions to move the pacman
+    visited_nodes = util.Queue()             # Next steps
+    last_position = problem.getStartState()  # All visited nodes
+    actual_movement.push(last_position)      # Last position before looping in while
 
     while not problem.isGoalState(last_position):
-        verifying_posible_moviments = actual_moviment.pop()
+        verifying_possible_moviments = actual_movement.pop()
         last_path = pacman_path.pop(0)
 
-        for mov in problem.getSuccessors(verifying_posible_moviments):
+        for mov in problem.getSuccessors(verifying_possible_moviments):
             new_direction = last_path.copy()
-            new_direction.append(mov[1])
+            new_direction.append(getDirection(mov))
 
-            if mov[0] not in visited_nodes.list:
-                visited_nodes.push(mov[0])
-                actual_moviment.push(mov[0])
+            if getPosition(mov) not in visited_nodes.list:
+                visited_nodes.push(getPosition(mov))
+                actual_movement.push(getPosition(mov))
                 
                 pacman_path.append(new_direction)
                 
-        last_position = actual_moviment.list[0]
+        last_position = getLastPosition(actual_movement)
 
+    # Returning the last tried movement, to go out of the while
+    # the algorithm needs to find the goal
     return pacman_path[-1]
 
 
@@ -168,3 +173,15 @@ bfs = breadthFirstSearch
 dfs = depthFirstSearch
 astar = aStarSearch
 ucs = uniformCostSearch
+
+def getPosition(t: tuple):
+    return t[0]
+
+def getDirection(t: tuple):
+    return t[1]
+
+def getMovementCost(t: tuple):
+    return t[2]
+
+def getLastPosition(q: util.Queue):
+    return q.list[0]
