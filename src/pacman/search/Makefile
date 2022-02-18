@@ -22,3 +22,12 @@ bfsMedio:
 	
 bfsGrande:
 	python3 pacman.py -l bigMaze -p SearchAgent -a fn=bfs	
+
+ucs:
+	python3 pacman.py -l tinyMaze -p SearchAgent -a fn=ucs
+
+ucsMedio:
+	python3 pacman.py -l mediumMaze -p SearchAgent -a fn=ucs	
+	
+ucsGrande:
+	python3 pacman.py -l bigMaze -p SearchAgent -a fn=ucs	
