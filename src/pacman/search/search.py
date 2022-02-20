@@ -97,6 +97,7 @@ def depthFirstSearch(problem: SearchProblem):
     visited_nodes = util.Queue()               # All visited nodes
     last_position = problem.getStartState()    # Last position before looping in while
     actual_movement.push(last_position)
+    visited_nodes.push(last_position)
 
     while not problem.isGoalState(last_position):
         verifying_possible_moviments = actual_movement.pop()
@@ -107,8 +108,8 @@ def depthFirstSearch(problem: SearchProblem):
             new_direction.append(getDirection(neighbor))
 
             if getPosition(neighbor) not in visited_nodes.list:
-                visited_nodes.push(getPosition(neighbor))
                 actual_movement.push(getPosition(neighbor))
+                visited_nodes.push(getPosition(neighbor))
                 
                 pacman_path.append(new_direction)
                 
@@ -128,6 +129,7 @@ def breadthFirstSearch(problem: SearchProblem):
     visited_nodes = util.Queue()             # Next steps
     last_position = problem.getStartState()  # All visited nodes
     actual_movement.push(last_position)      # Last position before looping in while
+    visited_nodes.push(last_position)        # The actual node 
 
     while not problem.isGoalState(last_position):
         verifying_possible_moviments = actual_movement.pop()
@@ -147,7 +149,7 @@ def breadthFirstSearch(problem: SearchProblem):
 
     # Returning the last tried movement, to go out of the while
     # the algorithm needs to find the goal
-    return pacman_path[-1]
+    return pacman_path[0]
 
 
 def uniformCostSearch(problem: SearchProblem):
