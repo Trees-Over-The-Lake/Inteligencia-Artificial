@@ -17,8 +17,6 @@ In search.py, you will implement generic search algorithms which are called by
 Pacman agents (in searchAgents.py).
 """
 
-import time
-from xml.dom.minidom import Element
 import util
 
 class SearchProblem:
