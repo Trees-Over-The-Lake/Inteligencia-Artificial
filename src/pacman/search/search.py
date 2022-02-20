@@ -145,8 +145,7 @@ def breadthFirstSearch(problem: SearchProblem):
                 
         last_position = getLastPosition(actual_movement)
 
-    # Returning the last tried movement, to go out of the while
-    # the algorithm needs to find the goal
+    # Returning the best found movement
     return pacman_path[0]
 
 
