@@ -43,3 +43,9 @@ assustadorDireita:
 
 assustadorEsquerda:
 	python3 pacman.py -l mediumScaryMaze -p StayWestSearchAgent
+
+direitaPontos:
+	python3 pacman.py -l mediumDottedMaze -p StayEastSearchAgent
+
+esquerdaPontos:
+	python3 pacman.py -l mediumDottedMaze -p StayWestSearchAgent
