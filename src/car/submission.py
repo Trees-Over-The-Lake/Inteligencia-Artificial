@@ -6,6 +6,7 @@ Chris Piech (piech@cs.stanford.edu). It was inspired by the Pacman projects.
 '''
 from engine.const import Const
 import util, math, random, collections
+import numpy as np
 
 # Class: ExactInference
 # ---------------------
@@ -46,7 +47,13 @@ class ExactInference(object):
 
     def observe(self, agentX, agentY, observedDist):
         # BEGIN_YOUR_CODE (our solution is 6 lines of code, but don't worry if you deviate from this)        
-        raise Exception("Not implemented yet")
+        for r in range(self.belief.getNumRows()):
+            for c in range(self.belief.getNumCols()):
+                y = util.rowToY(r)
+                x = util.colToX(c)
+                dist = math.sqrt(float(agentX - x) ** 2 + float(agentY - y) ** 2)
+                self.belief.setProb(r, c, self.belief.getProb(r, c) * util.pdf(dist, Const.SONAR_STD, observedDist))
+        self.belief.normalize()
         # END_YOUR_CODE
 
     ##################################################################################
@@ -70,7 +77,14 @@ class ExactInference(object):
     def elapseTime(self):
         if self.skipElapse: return ### ONLY FOR THE GRADER TO USE IN Problem 2
         # BEGIN_YOUR_CODE (our solution is 6 lines of code, but don't worry if you deviate from this)
-        raise Exception("Not implemented yet")
+        previous = np.zeros(shape=(self.belief.getNumRows(), self.belief.getNumCols()))
+        for r in range(self.belief.getNumRows()):
+            for c in range(self.belief.getNumCols()):
+                previous[r, c] = self.belief.getProb(r, c)
+                self.belief.setProb(r, c, 0)
+
+        for segs, prob in self.transProb.items():
+            self.belief.addProb(segs[1][0], segs[1][1], prob*previous[segs[0][0], segs[0][1]])
         # END_YOUR_CODE
 
     # Function: Get Belief
@@ -95,23 +109,12 @@ class ParticleFilter(object):
     # (numRows x numCols) number of tiles.
     def __init__(self, numRows, numCols):
         self.belief = util.Belief(numRows, numCols)
-
-        # Load the transition probabilities and store them in an integer-valued defaultdict.
-        # Use self.transProbDict[oldTile][newTile] to get the probability of transitioning from oldTile to newTile.
         self.transProb = util.loadTransProb()
         self.transProbDict = dict()
         for (oldTile, newTile) in self.transProb:
             if not oldTile in self.transProbDict:
                 self.transProbDict[oldTile] = collections.defaultdict(int)
             self.transProbDict[oldTile][newTile] = self.transProb[(oldTile, newTile)]
-
-        # Initialize the particles randomly.
-        self.particles = collections.defaultdict(int)
-        potentialParticles = list(self.transProbDict.keys())
-        for i in range(self.NUM_PARTICLES):
-            particleIndex = int(random.random() * len(potentialParticles))
-            self.particles[potentialParticles[particleIndex]] += 1
-
         self.updateBelief()
 
     # Function: Update Belief
@@ -165,10 +168,20 @@ class ParticleFilter(object):
     ##################################################################################
     def observe(self, agentX, agentY, observedDist):
         # BEGIN_YOUR_CODE (our solution is 10 lines of code, but don't worry if you deviate from this)
-        raise Exception("Not implemented yet")
+        particleBelief = collections.Counter()
+        for particle in self.particles:
+            Y = util.rowToY(particle[0])
+            X = util.colToX(particle[1])
+            mean = math.sqrt((agentX - X) ** 2 + (agentY - Y) ** 2)
+            particleBelief[particle] = self.particles[particle] * util.pdf(mean, Const.SONAR_STD, observedDist)
+        self.particles = collections.Counter()
+        for _ in range(self.NUM_PARTICLES):
+            newParticle = util.weightedRandomChoice(particleBelief)
+            self.particles[newParticle] += 1
+        self.updateBelief()
+        self.updateBelief()
         # END_YOUR_CODE
 
-        self.updateBelief()
 
     ##################################################################################
     # Problem 4 (part b):
