@@ -1,134 +1,131 @@
 \section{Metodologia}
 
 A primeira etapa do presente trabalho consistiu na obtenção de um conjunto 
-de dados disponibilizados pelo Banco Mundial, que é composto por uma 
-coletânea de diferentes valores para métricas sociais, socioeconômicas 
-e populacionais brasileiras, coletadas entre 1960 e 2020.
+de dados disponibilizados pelo Banco Mundial \cite{Dataset:6}, que é composto por uma 
+coletânea de diferentes valores para métricas sociais, socioeconômicas e 
+populacionais brasileiras, coletadas entre 1960 e 2020.
 
-Foram escolhidos três indicadores que representam diferentes aspectos 
-do desenvolvimento social brasileiro e que são adequadas para modelagens 
-de séries temporais. Isto é, indicadores que apresentam um padrão de 
-crescimento característico e consistente. Os indicadores escolhidos 
-são “SP.POP.TOTL”, que representa a população total do Brasil em milhões 
-de pessoas, “SP.RUR.TOTL.ZS”, que representa a porcentagem da população 
-brasileira que vive em áreas rurais e “SP.URB.TOTL.IN.ZS”, que representa 
-a porcentagem da população brasileira que vive em centros urbanos. 
-O objetivo do grupo ao escolher os indicadores explicitados é 
-demonstrar a aplicação de séries temporais em conjuntos de dados 
-diferentes e a modelagem de um preditor capaz de analisar diferentes 
-espectros sociais brasileiros, bem como correlacionar estes três 
-indicadores e mostrar por meio de contextos e fatos históricos 
-como os mesmos estão relacionadas.
+Foram escolhidos três indicadores que representam diferentes aspectos do 
+desenvolvimento populacional brasileiro e que são adequados para modelagens 
+de séries temporais. Isto é, indicadores que apresentam um padrão de crescimento 
+característico, consistente e previsível. Os indicadores escolhidos são 
+``SP.POP.TOTL'', que representa a população total do Brasil em milhões de 
+pessoas, ``SP.RUR.TOTL.ZS'', que representa a porcentagem da população brasileira 
+que vive em áreas rurais e ``SP.URB.TOTL.IN.ZS'', que representa a porcentagem 
+da população brasileira que vive em centros urbanos. O objetivo do grupo ao 
+escolher os indicadores explicitados é demonstrar a aplicação de séries temporais 
+em dados populacionais e a modelagem de um preditor capaz de projetar um 
+crescimento realista dentro de um período de dez anos.
 
-Para este fim, o conjunto de dados foi separado em conjuntos de 
-treino e teste, com o objetivo de predizer os valores para os 
-indicadores escolhidos para dez anos no futuro com alto grau de 
-confiabilidade. Para isso, foi estabelecida uma taxa de 83\% dos
-dados sendo usado para treinamento do modelo e 2\% dos dados 
-sendo usados para o conjunto de validação, com 15\% dos dados 
-sobrando para o conjunto de testes. A escolha por trás dessa alta 
-taxa de treinamento foi motivada principalmente pelos valores 
-observados no dataset serem afetados por incontáveis fatores 
-como políticas públicas, contextos históricos e desenvolvimentos 
-no âmbito socioeconômico brasileiro ao longo de anos, e por 
-isso se faz imperativo treinar o preditor com dados mais
-recentes possíveis a fim de suprimir o ruído causado por todas 
-estas variáveis. 
+Para este fim, o conjunto de dados foi separado em conjuntos de treino, 
+validação e teste, com o objetivo de predizer os valores para os indicadores 
+escolhidos para dez anos no futuro com alto grau de confiabilidade. Para isso,
+ foi estabelecida uma taxa de 83\% dos dados sendo usado para treinamento do modelo 
+ e 2\% dos dados sendo usados para o conjunto de validação, com 15\% dos dados 
+ sobrando para o conjunto de teste do modelo. A escolha por trás dessa alta 
+ taxa de treinamento foi motivada principalmente pelos valores observados no 
+ crescimento populacional brasileiro serem afetados por incontáveis fatores 
+ como políticas públicas, contextos históricos, fenômenos sociais e 
+ desenvolvimentos no âmbito socioeconômico brasileiro ao longo de anos, e 
+ por isso se faz imperativo treinar o preditor com dados mais recentes possíveis 
+ a fim de suprimir o ruído causado por todas estas variáveis. 
 
 
-Os dados fornecidos para cada indicador são medidos em unidades 
-diferentes, relativas ao indicador que está sendo analisado. 
-Na tabela 1 segue um exemplo de valores para seis diferentes 
-anos no banco de dados envolvendo os indicadores descritos.
+Os dados fornecidos para cada indicador são medidos em unidades diferentes, 
+relativas ao indicador que está sendo analisado. Na tabela 1 segue um exemplo 
+de valores para seis diferentes anos no banco de dados envolvendo os indicadores descritos.
 
-\textbf{Tabela 1: Colocar tabela no LATEX}
 
-O presente trabalho analisa os dados obtidos como séries temporais, 
-uma vez que eles se encaixam na definição encontrada em 
-\emph{“Time Series Analysis: Forecasting and Control”} 
-(BOX \& JENKINS, 1970). Neste estudo a ordem de observação dos dados 
-é de extrema relevância, pois ela aponta para características 
-e padrões na série e permite com que o preditor consiga modelar 
-a evolução dos valores naquela série.
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Ano & SP.POP.TOTL & SP.RUR.TOTL.ZS & SP.URB.TOTL.IN.ZS \\
+        \hline
+        1960 & 72.179235 & 53861 & 46139 \\
+        \hline
+        1961 & 74.311338 & 52878 & 47122 \\
+        \hline
+        1962 & 76.514329 & 51901 & 48099 \\
+        \hline
+        1963 & 78.772647 & 50921 & 49078 \\
+        \hline
+        1964 & 81.064572 & 49941 & 50059 \\
+        \hline
+        1965 & 83.373533 & 48963 & 51037 \\
+        \hline
+    \end{tabular}
+    \caption{Amostra de valores dos primeiros 6 anos para os indicadores selecionados}
+\end{table}
 
-Também conhecida como suavização exponencial, o método de Holt é 
-utilizado para calcular previsões em séries temporais que apresentam 
-tendência (CITAÇÃO). Para se prever valores em Y a partir de um 
-conjunto de dados com o método de suavização exponencial de Holt, 
-é necessário saber a tendência e o nivelamento da série temporal 
-gerada. Essa expressão é dada por:
+O presente trabalho analisa os dados obtidos como séries temporais, uma vez que eles 
+se encaixam na definição encontrada em “Time Series Analysis: Forecasting and Control” 
+\cite{BOX:1}. Neste estudo a ordem de observação dos dados é de extrema relevância, 
+pois ela aponta para características e padrões na série e permite com que o preditor consiga 
+modelar a evolução dos valores naquela série.
 
-\begin{figure}[h!]
+Também conhecida como suavização exponencial, o método de Holt é utilizado para calcular 
+previsões em séries temporais que apresentam tendência \cite{Peter:7}. Para se prever valores em Y a 
+partir de um conjunto de dados com o método de suavização exponencial de Holt, é necessário 
+saber a tendência e o nivelamento da série temporal gerada. Essa expressão é dada por:
+
+\begin{figure}[h]
+    \centering
     \begin{equation}
         F(t) = L(t) + T(t) + R
-    \end{equation}
-    \caption{Expressão que rege a série temporal}
+    \end{equation}  
+    \caption{Expressão que rege a série temporal}  
 \end{figure}
 
-Equação 1: Expressão que rege a série temporal
+onde $L(t)$ é o nivelamento da série, $T(t)$ representa a inclinação da linha na 
+qual os dados estão distribuídos e R é o ruído presente nos dados. O nível da série 
+temporal, ou $L(t)$, representa o valor em $Y$ da série temporal em um instante $T$. 
+Para estimar esse valor, é necessário utilizar uma Equação de Atualização de Nível, 
+que é expressada por: 
 
-onde $L(t)$ é o nivelamento da série, $T(t)$ 
-representa a inclinação da linha na qual os dados estão 
-distribuídos e $R$ é o ruído presente nos dados. 
-O nível da série temporal, ou $L(t)$, representa o valor 
-em $Y$ da série temporal em um instante T. Para estimar 
-esse valor, é necessário utilizar uma Equação de Atualização 
-de Nível, que é expressada por: 
-
-\begin{figure}[h!]
+\begin{figure}[h]
+    \centering
     \begin{equation}
-        L(t) = \alpha * (Yt / S(t)) + (1 - \alpha) * (L(t-1) + T(t-1))
+        L(t) = \alpha * (\frac{Y(t)}{S(t)}) + (1 - \alpha) * (L(t-1) + T(t-1))
     \end{equation}
     \caption{Equação de nível da série}
 \end{figure}
 
+Na equação 2, é escolhido um valor para alpha $(\alpha)$, o que afeta a representatividade dos 
+valores de níveis-base passados. Valores próximos a um reduzem o peso de valores muito antigos, 
+e valores próximos a zero dão o mesmo peso para todos os valores presentes na série. 
+Dessa forma, o modelo aprende qual será o nível referente a um novo ano que foi inserido 
+na série. Também é importante notar que a série apresenta tendência, ou $T(t)$, que é entendida 
+como a angulação da linha da série temporal \cite{WIENER:8}. Essa tendência foi identificada 
+como sendo de tendência aditiva, visto que os dados se aproximam de uma evolução linear.
 
+A segunda parte do estudo consistiu na obtenção dos dados temporais para os indicadores 
+escolhidos e a passagem dessa série para o modelo de Holt utilizando o valor 1.4 para 
+alpha a fim de dar um peso maior para valores mais recentes da série, já que é desejável 
+que valores observados mais recentementes ditem o sentido de evolução do modelo. 
+O valor 1.4 foi descoberto como valor ideal após ajustar o modelo para ele prever 
+bem o conjunto de dados de validação.
 
-Na equação 2, é escolhido um valor para alpha $(\alpha)$, o 
-que afeta a representatividade dos valores de níveis-base 
-passados. Valores próximos a um reduzem o peso de valores 
-muito antigos, e valores próximos a zero dão o mesmo peso 
-para todos os valores presentes na série. Dessa forma, 
-o modelo aprende qual será o nível referente a um novo 
-ano que foi inserido na série. Também é importante 
-notar que a série apresenta tendência, ou $T(t)$, que 
-é entendida como a angulação da linha da série temporal (WIENER, 1949)
-. Essa tendência foi identificada como sendo de tendência 
-aditiva, visto que os dados se aproximam de uma evolução linear.
+Os valores previstos para cada ano de teste, que consiste nos anos de 2010 a 2020, 
+foram em seguida armazenados e modelados com a biblioteca matplotlib para visualização 
+e comparação com os valores reais observados para este período. Para a etapa de avaliação 
+do modelo, foram escolhidas as métricas de avaliação \emph{MAE} (\emph{Mean Absolute Error}) e o \emph{R2 Score}. 
+Tendo em vista que os indicadores sociais escolhidos são facilmente modeláveis por modelos lineares 
+e não apresentam características que dificultam o aprendizado de séries temporais como sazonalidade 
+e trends excêntricas, uma variância aceitável é definida pelo grupo na tabela 2.
 
-A segunda parte do trabalho consistiu na obtenção dos dados 
-temporais para os indicadores sociais escolhidos e a passagem 
-dessa série para o modelo de Holt utilizando o valor 1.4 para 
-alpha a fim de dar um peso maior para valores mais recentes 
-da série, já que é desejável que valores observados mais 
-recentementes ditem o sentido de evolução do modelo. 
-O valor 1.4 foi descoberto como valor ideal após ajustar o 
-modelo para ele prever bem o conjunto de dados de validação.
-
-Os valores previstos para cada ano de teste, que consiste nos 
-anos de 2010 a 2020, foram em seguida armazenados e modelados 
-com a biblioteca matplotlib para visualização e comparação 
-com os valores reais observados para este período. Para a 
-etapa de avaliação do modelo, foram escolhidas as métricas 
-de avaliação MAE (\emph{Mean Absolute Error}) e o \emph{R2 Score}. 
-Tendo em vista que os indicadores sociais escolhidos 
-são facilmente modeláveis por modelos lineares e não 
-apresentam características que dificultam o aprendizado 
-de séries temporais como sazonalidade e trends excêntricas, 
-uma variância aceitável é definida pelo grupo na tabela 5.
-
-\begin{table}[h!]
+\begin{table}[h]
     \centering
     \begin{tabular}{|c|c|c|}
         \hline
-        Métricas & \emph{MAE} & \emph{R2} \\
+        Indicador & Valor ideal para \emph{MAE} & Valor ideal para \emph{R2} \\
         \hline
-        Valor ideal para SP.POP.TOTL & 8 & 0.9 \\
-        \hline 
-        Valor ideal para SP.DYN.LE00.IN & 2 & 0.8 \\
+        SP.POP.TOTL & 8 & 0.75 \\ 
         \hline
-        Valor ideal para SP.URB.TOTL.IN.ZS & 3 & 0.8 \\
+        SP.RUR.TOTL.ZS & 4 & 0.7 \\
+        \hline
+        SP.URB.TOTL.IN.ZS & 4 & 0.7 \\
         \hline
     \end{tabular}
-    \caption{Resultados considerados ótimos para cada métrica e para cada indicador social}
+    \caption{Resultados considerados ótimos para cada métrica e para cada indicador populacional}
 \end{table}

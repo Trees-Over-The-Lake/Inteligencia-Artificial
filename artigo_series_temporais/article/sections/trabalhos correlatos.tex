@@ -1,21 +1,26 @@
 \section{Trabalhos Correlatos}
 
-Historicamente, modelos lineares têm dominado previsões de séries 
-temporais pela sua simplicidade de implementação, baixo custo 
-computacional e facilidade para entender seu funcionamento, o que 
-faz com que elas sejam bem conhecidas e efetivas na resolução de 
-uma ampla gama de problemas, como pode ser visto em diferentes 
-estudos que envolvem crescimento populacional\[5\]. Apesar disso, 
-contextos específicos trazem uma demanda por ferramentas mais robustas, 
-baseadas em diferentes algoritmos. Dentro das técnicas mais modernas 
-com Deep Learning, são notáveis o uso de Convolutional Neural Networks\[3\] 
-e Long Short-Term Memory Networks\[4\] aplicadas a séries temporais. 
-Esses modelos são originalmente voltados a análises multivariadas 
-com bases de dados massivas, o que faz com que as suas características 
-mais notáveis sejam a alta resistência a ruídos na base de dados e a 
-habilidade de aprender e extrair automaticamente as características 
-principais de uma série. Apesar de apresentarem grandes vantagens, para 
-funcionar corretamente e com alto grau de confiabilidade, também é 
-demandada uma base de dados extensiva, além do custo computacional ser 
-muito maior. Com essas características que permeiam Deep Learning em mente, 
-o presente trabalho optou pelo uso de técnicas lineares para predição de séries temporais.
+Historicamente, modelos lineares têm dominado previsões de séries temporais 
+pela sua simplicidade de implementação, baixo custo computacional e facilidade 
+para entender seu funcionamento, o que faz com que eles sejam bem conhecidos 
+e efetivos na resolução de uma ampla gama de problemas, como pode ser visto 
+em diferentes estudos que envolvem crescimento populacional \cite{Alan:5}. Apesar disso, 
+contextos específicos trazem uma demanda por ferramentas mais robustas, baseadas 
+em diferentes algoritmos. Dentro das técnicas mais modernas com \emph{Deep Learning}, 
+são notáveis o uso de \emph{Convolutional Neural Networks} \cite{Ban:3} e \emph{Long Short-Term Memory 
+Networks} \cite{Benjamin:4} aplicadas a séries temporais. Esses modelos são originalmente voltados 
+a análises multivariadas com bases de dados massivas, o que faz com que as suas 
+características mais notáveis sejam a alta resistência a ruídos na base de dados 
+e a habilidade de aprender e extrair automaticamente as características principais
+de uma série. Apesar de apresentarem grandes vantagens, para funcionar corretamente 
+e com alto grau de confiabilidade, também é demandada uma base de dados extensiva, 
+além do custo computacional ser muito maior. Essa característica é levada em 
+consideração em diferentes contextos, inclusive em problemas que não possuem 
+uma base de dados extensa o bastante. Este ponto faz com que o presente trabalho 
+busque evitar tal barreira, visto que nem sempre cidades e entidades governamentais 
+possuem tal base de dados capaz de suportar um modelo de \emph{Deep Learning}. Com isso 
+em mente, o presente trabalho apresenta uma busca por um modelo de \emph{Machine Learning} 
+capaz de realizar predições de medidores populacionais apenas com dados passados, 
+em forma de séries temporais, já que é entendido que para previsões de médio prazo, 
+que são previsões de 10 anos no futuro, não são necessárias tais detalhamentos.
+
